@@ -146,7 +146,31 @@ Results will be saved in the `eda_plots/` directory.
 
 ## 🤖 Model Training
 
-Details about model training and evaluation coming soon...
+The project uses a two-step approach for model training:
+
+### 1. Automatic Dataset Labeling
+
+We use a state-of-the-art transformer model ([cardiffnlp/twitter-roberta-base-sentiment](https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment)) to automatically label the preprocessed combined dataset. This is done using the `label_dataset.py` script, which assigns sentiment labels (Negative, Neutral, Positive) to each text entry.
+
+Run the labeling script:
+
+```bash
+python label_dataset.py
+```
+
+This will create a new file `processed_datasets/combined_dataset_with_labels.csv` containing the original data and the predicted sentiment labels.
+
+### 2. Training TF-IDF + Logistic Regression Model
+
+After labeling, we train a traditional machine learning model using the labeled data. Specifically, we use a TF-IDF vectorizer to transform the text data into feature vectors, and then train a Logistic Regression classifier for sentiment prediction.
+
+Steps:
+
+1. Load the labeled dataset (`processed_datasets/combined_dataset_with_labels.csv`).
+2. Split the data into training and test sets.
+3. Fit a TF-IDF vectorizer on the training text.
+4. Train a Logistic Regression model on the TF-IDF features and sentiment labels.
+5. Evaluate the model on the test set using standard metrics (accuracy, F1, etc.).
 
 ## 📝 License
 

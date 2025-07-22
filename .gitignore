@@ -129,7 +129,6 @@ dmypy.json
 .pyre/
 
 # NLP specific
-*.pkl
 *.pickle
 *.joblib
 *.h5

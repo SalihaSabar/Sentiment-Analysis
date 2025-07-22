@@ -11,7 +11,7 @@ import numpy as np
 warnings.filterwarnings("ignore")
 
 # === CONFIGURATION ===
-INPUT_FILE = "combined_dataset_with_labels.csv"
+INPUT_FILE = "processed_datasets/combined_dataset_with_labels.csv"
 TEXT_COL = "preprocessed_text"
 LABEL_COL = "review_label"
 SAMPLE_FRAC = 0.1
@@ -78,7 +78,6 @@ y_pred = random_search.predict(X_val)
 print(classification_report(y_val, y_pred))
 print("Confusion Matrix:\n", confusion_matrix(y_val, y_pred))
 
-# === OPTIONAL: TRAIN FINAL MODEL ON FULL DATA ===
 print("\nTraining final model on full dataset...")
 final_vectorizer = TfidfVectorizer(
     max_features=TFIDF_MAX_FEATURES,
