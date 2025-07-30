@@ -120,6 +120,7 @@ The project requires the following main packages:
 - **pandas** - Data manipulation and analysis
 - **numpy** - Numerical computing
 - **scikit-learn** - Machine learning algorithms
+- **torch** - Deep learning framework for BiLSTM model
 - **nltk** - Natural language processing
 - **matplotlib** - Data visualization
 - **seaborn** - Statistical data visualization
@@ -160,17 +161,65 @@ python label_dataset.py
 
 This will create a new file `processed_datasets/combined_dataset_with_labels.csv` containing the original data and the predicted sentiment labels.
 
-### 2. Training TF-IDF + Logistic Regression Model
+### 2. Training Models
 
-After labeling, we train a traditional machine learning model using the labeled data. Specifically, we use a TF-IDF vectorizer to transform the text data into feature vectors, and then train a Logistic Regression classifier for sentiment prediction.
+We implement two different approaches for sentiment classification:
+
+#### A. TF-IDF + Logistic Regression (scikit-learn)
+
+A traditional machine learning approach using TF-IDF vectorization and Logistic Regression classification.
+
+Run the training script:
+
+```bash
+python tf-idf+logreg.py
+```
 
 Steps:
 
 1. Load the labeled dataset (`processed_datasets/combined_dataset_with_labels.csv`).
 2. Split the data into training and test sets.
 3. Fit a TF-IDF vectorizer on the training text.
-4. Train a Logistic Regression model on the TF-IDF features and sentiment labels.
+4. Train a Logistic Regression model with hyperparameter tuning.
 5. Evaluate the model on the test set using standard metrics (accuracy, F1, etc.).
+
+#### B. BiLSTM + GloVe Embeddings (PyTorch)
+
+A deep learning approach using Bidirectional LSTM with pre-trained GloVe word embeddings.
+
+**Prerequisites:**
+
+- Download GloVe embeddings from [Stanford NLP](https://nlp.stanford.edu/projects/glove/)
+- Place `glove.6B.100d.txt` in the project root directory
+
+Run the training script:
+
+```bash
+python bilstm_glove.py
+```
+
+Steps:
+
+1. Load the labeled dataset and GloVe embeddings.
+2. Build vocabulary and tokenize text sequences.
+3. Create embedding matrix using GloVe vectors.
+4. Build and train a BiLSTM model with PyTorch.
+5. Evaluate the model and save for inference.
+
+**Model Architecture:**
+
+- Embedding layer with GloVe weights (100d)
+- Bidirectional LSTM layers (2 layers, 128 hidden units)
+- Dense layers with dropout for regularization
+- Softmax output for 3-class classification
+
+**Features:**
+
+- Automatic GPU/CPU detection for PyTorch training
+- GPU-accelerated data processing with cuDF (optional)
+- Early stopping to prevent overfitting
+- Learning rate scheduling
+- Custom dataset and collate functions for variable-length sequences
 
 ## 📝 License
 
