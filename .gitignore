@@ -155,8 +155,6 @@ processed_data/
 models/
 checkpoints/
 saved_models/
-*.pt
-*.pth
 *.onnx
 *.tflite
 
